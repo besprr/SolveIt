@@ -4,8 +4,8 @@ import MainContent from '../components/MainContent'
 const LandingPage = () => {
 	return (
 		<>
-			<MainContent city='London'/>
 			<Header />
+			<MainContent city='London'/>
 		</>
 	)
 }

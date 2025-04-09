@@ -1,11 +1,18 @@
 import ThemeToggle from './ThemeToggle'
 const Header = () => {
 	return (
-		<header className='header container'>
-			<ul className='header__list'>
-				<li className='header__item'>Главная</li>
-				<li className='header__item'>О нас</li>
-				<li className='header__item'>Прайс</li>
+		<header className='flex justify-between w-full max-w-7xl mx-auto h-20 items-center'>
+			<div>Logo</div>
+			<ul className='flex gap-30'>
+				<li>
+					<a href='#'>Главная</a>
+				</li>
+				<li>
+					<a href='#'>О нас</a>
+				</li>
+				<li>
+					<a href='#'>Прайс</a>
+				</li>
 			</ul>
 			<ThemeToggle />
 		</header>
