@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import PostFilter from './PostFilter'
 import PostForm from './PostForm'
 import PostList from './PostList'
@@ -12,6 +12,23 @@ const ToDoContent = () => {
 	])
 
 	const [selectedSort, setSelectedSort] = useState('')
+	const [searchQuery, setSearchQuery] = useState('')
+
+	const sortedPosts = useMemo(() => {
+		if (selectedSort) {
+			return [...posts].sort((a, b) =>
+				a[selectedSort].localeCompare(b[selectedSort])
+			)
+		}
+
+		return posts
+	}, [selectedSort, posts])
+
+	const sortedAndSearchedPosts = useMemo(() => {
+		return sortedPosts.filter(post =>
+			post.title.toLowerCase().includes(searchQuery)
+		)
+	}, [searchQuery, sortedPosts])
 
 	const createPost = newPost => {
 		setPosts([...posts, newPost])
@@ -23,7 +40,6 @@ const ToDoContent = () => {
 
 	const sortPosts = sort => {
 		setSelectedSort(sort)
-		setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
 	}
 
 	return (
@@ -38,11 +54,15 @@ const ToDoContent = () => {
 					{ value: 'body', name: 'По описанию' },
 				]}
 			/>
-			{posts.length === 0 ? (
-				<h1 className='text-9xl text-red-500'>Постов нет</h1>
-			) : (
-				<PostList remove={removePost} posts={posts} title={'Посты'} />
-			)}
+			{
+				<PostList
+					remove={removePost}
+					posts={sortedAndSearchedPosts}
+					title={'Посты'}
+					value={searchQuery}
+					onChange={e => setSearchQuery(e.target.value)}
+				/>
+			}
 		</div>
 	)
 }
